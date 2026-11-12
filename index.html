@@ -17,7 +17,11 @@
   --line:#e4dfd5;
   --brand:#ffc20e;
   --accent:#f08a00;
-  --y1:#15803d; --y2:#1d4ed8; --y3:#c81e1e; --y4:#2a2622;
+  /* shirt colors per year: white, navy, eggplant, black */
+  --y1:#ffffff; --y1-on:#2a2622; --y1-mark:#8f877c;
+  --y2:#1e3a8a; --y2-on:#ffffff; --y2-mark:#1e3a8a;
+  --y3:#5b2a5b; --y3-on:#ffffff; --y3-mark:#5b2a5b;
+  --y4:#1c1c1c; --y4-on:#ffffff; --y4-mark:#1c1c1c;
   --display:"Karantina","Assistant",system-ui,sans-serif;
   --body:"Assistant",system-ui,"Segoe UI",Arial,sans-serif;
   color-scheme:light;
@@ -25,12 +29,12 @@
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --bg:#16130f; --surface:#211d18; --ink:#f4efe7; --muted:#b0a797; --line:#3a332b;
-    --brand:#ffc93a; --accent:#ff9d2e; --y1:#34c26b; --y2:#6b97ff; --y3:#ff6161; --y4:#d6d0c6; color-scheme:dark;
+    --brand:#ffc93a; --accent:#ff9d2e; --y1:#f4efe7; --y1-on:#16130f; --y1-mark:#d9d2c5; --y2:#6f8fe8; --y2-on:#0b1530; --y2-mark:#8aa4ef; --y3:#b073ad; --y3-on:#1a0f1a; --y3-mark:#c48fc1; --y4:#d6d0c6; --y4-on:#16130f; --y4-mark:#d6d0c6; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#16130f; --surface:#211d18; --ink:#f4efe7; --muted:#b0a797; --line:#3a332b;
-  --brand:#ffc93a; --accent:#ff9d2e; --y1:#34c26b; --y2:#6b97ff; --y3:#ff6161; --y4:#d6d0c6; color-scheme:dark;
+  --brand:#ffc93a; --accent:#ff9d2e; --y1:#f4efe7; --y1-on:#16130f; --y1-mark:#d9d2c5; --y2:#6f8fe8; --y2-on:#0b1530; --y2-mark:#8aa4ef; --y3:#b073ad; --y3-on:#1a0f1a; --y3-mark:#c48fc1; --y4:#d6d0c6; --y4-on:#16130f; --y4-mark:#d6d0c6; color-scheme:dark;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -77,8 +81,8 @@ h1 span{color:var(--accent)}
 .race{display:grid;gap:12px;max-width:620px;margin:0 auto}
 .lane{display:grid;grid-template-columns:76px 1fr 52px;align-items:center;gap:10px}
 .lane .yr{font-weight:800;text-align:right}
-.track{height:30px;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden}
-.fill{height:100%;min-width:4px;transition:width .8s ease}
+.track{height:30px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.fill{height:100%;min-width:4px;transition:width .8s ease;box-shadow:inset 0 0 0 1px rgba(0,0,0,.25)}
 .lane .n{font-family:var(--display);font-size:2rem;line-height:1}
 .lead-badge{font-size:.78rem;font-weight:800;color:var(--accent);display:block}
 .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px auto 0;max-width:620px}
@@ -101,7 +105,7 @@ h1 span{color:var(--accent)}
 /* teams */
 .tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:16px}
 .tab{font:inherit;font-weight:800;padding:8px 16px;border-radius:999px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
-.tab[aria-selected="true"]{color:#fff;border-color:transparent}
+.tab[aria-selected="true"]{border-color:transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.25)}
 .groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px}
 .group{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--yc);border-radius:10px;padding:14px}
 .group h3{font-size:1.15rem;margin-bottom:8px}
@@ -124,7 +128,7 @@ h1 span{color:var(--accent)}
 .sched-row .t{font-weight:800;font-variant-numeric:tabular-nums}
 .locked{background:repeating-linear-gradient(-45deg,transparent 0 14px,color-mix(in srgb,var(--brand) 18%,transparent) 14px 28px)}
 .podium{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:16px;align-items:end}
-.pod{border-radius:8px 8px 0 0;color:#fff;padding:8px 4px;font-weight:800}
+.pod{border-radius:8px 8px 0 0;padding:8px 4px;font-weight:800;box-shadow:inset 0 0 0 1px rgba(0,0,0,.25)}
 .pod b{display:block;font-family:var(--display);font-size:2.2rem;line-height:1}
 .res-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:9px 14px;border-top:1px solid var(--line)}
 
@@ -593,7 +597,7 @@ footer .logo{width:80px;margin-bottom:8px}
 (function(){
   var raw=document.getElementById("page-data").textContent.replace("/*DATA-START*/","").replace("/*DATA-END*/","");
   var D=JSON.parse(raw);
-  var YEARS=["א","ב","ג","ד"], YC={"א":"var(--y1)","ב":"var(--y2)","ג":"var(--y3)","ד":"var(--y4)"};
+  var YEARS=["א","ב","ג","ד"], YC={"א":"var(--y1)","ב":"var(--y2)","ג":"var(--y3)","ד":"var(--y4)"}, YON={"א":"var(--y1-on)","ב":"var(--y2-on)","ג":"var(--y3-on)","ד":"var(--y4-on)"}, YM={"א":"var(--y1-mark)","ב":"var(--y2-mark)","ג":"var(--y3-mark)","ד":"var(--y4-mark)"};
   var ICON={"קטרגל אולמות":"⚽","סטריטבול":"🏀","כדורעף חופים":"🏐","שחיית שליחים":"🏊","טניס":"🎾","משיכה בחבל":"🪢","מחניים":"🤾","ספרינט שליחים":"🏃","פוצ'יוולי":"🦶"};
   function el(t,c,txt){var e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e;}
   function setLink(id,url){var a=document.getElementById(id);if(!a)return;
@@ -670,11 +674,11 @@ footer .logo{width:80px;margin-bottom:8px}
   var tabs=document.getElementById("year-tabs"),current="א";
   function renderYear(y){
     current=y;
-    Array.prototype.forEach.call(tabs.children,function(t){var on=t.dataset.y===y;t.setAttribute("aria-selected",on);t.style.background=on?YC[t.dataset.y]:"";t.tabIndex=on?0:-1;});
+    Array.prototype.forEach.call(tabs.children,function(t){var on=t.dataset.y===y;t.setAttribute("aria-selected",on);t.style.background=on?YC[t.dataset.y]:"";t.style.color=on?YON[t.dataset.y]:"";t.tabIndex=on?0:-1;});
     var wrap=document.getElementById("groups");wrap.innerHTML="";
     var R=D.rosters[y];
     R.groups.forEach(function(g){
-      var box=el("div","group");box.style.setProperty("--yc",YC[y]);
+      var box=el("div","group");box.style.setProperty("--yc",YM[y]);
       box.appendChild(el("h3",null,"שנה "+y+"' · "+g.name));
       D.sports.forEach(function(sp){
         var row=el("div","sport"),h=el("div","s");h.appendChild(el("span",null,ICON[sp]||"🏅"));h.appendChild(document.createTextNode(sp));row.appendChild(h);
@@ -722,7 +726,7 @@ footer .logo{width:80px;margin-bottom:8px}
     var st=res.standings||{},order=YEARS.slice().sort(function(a,b){return (st[b]||0)-(st[a]||0);});
     var mx=Math.max.apply(null,YEARS.map(function(y){return st[y]||0;}))||1;
     var pod=el("div","podium");
-    YEARS.forEach(function(y){var p=el("div","pod");p.style.background=YC[y];p.style.height=(60+((st[y]||0)/mx)*90)+"px";
+    YEARS.forEach(function(y){var p=el("div","pod");p.style.background=YC[y];p.style.color=YON[y];p.style.height=(60+((st[y]||0)/mx)*90)+"px";
       p.appendChild(el("b","num",String(st[y]||0)));p.appendChild(document.createTextNode("שנה "+y+"'"+(y===order[0]&&st[y]?" 🏆":"")));pod.appendChild(p);});
     rb.appendChild(pod);
     (res.sports||[]).forEach(function(s){var r=el("div","res-row");r.appendChild(el("div",null,(ICON[s.sport]||"🏅")+" "+s.sport));
